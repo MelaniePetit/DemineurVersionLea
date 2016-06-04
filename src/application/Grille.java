@@ -4,18 +4,19 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import javafx.event.EventHandler;
+import javafx.scene.Parent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Text;
 
-public class Grille {
+public class Grille extends Parent{
 
 	int nblignes;
 	int nbcolonnes;
 	ArrayList<Case> cases = new ArrayList<Case>();
-	int nbBombes=5;
+	int nbBombes=25;
 	
 	public Grille(int nblig, int nbcol){
 		nblignes=nblig;
@@ -73,12 +74,14 @@ public class Grille {
                                            theEnd();
 
                                 	   } else {
-                                		   // ECRIRE LE NOMBRE DE BOMBES
-                                		   String nbVoisins = ""+c.nbVoisins();
-                                		   Text nb = new Text(nbVoisins);
-                                		   //gridGame.add(nb, j, i); Je veux ajouter le texte :'(
+                                		   compteurBombe(c);
+                                		   c.afficherNbBombes();
                                            c.setStyle("-fx-background-color: blue;");
                                 	   }
+                                	   /*for (Case v : c.voisins){
+                                		   System.out.println(v.getIndex());
+                                	   } verif voisins*/
+                                	   
                                    }
                                    
                                });
@@ -97,7 +100,7 @@ public class Grille {
 		} else {
 			initialisationBombes();
 		}
-		System.out.println("J'ai posé une bombe sur la case d'index "+caseHasard);		
+		System.out.println("J'ai pose une bombe sur la case d'index "+caseHasard);		
 	}
 	
 	public void theEnd() {
@@ -151,6 +154,16 @@ public class Grille {
 				c.ajouterVoisin(droite);
 			}
 
+	}
+	
+	public void compteurBombe(Case c){
+		for (Case v : c.voisins){
+			if (v.isBombe()){
+				c.setNbBombesAutour(c.nbBombesAutour +1);
+			}
+ 		   System.out.println(c.nbBombesAutour);
+		}
+		
 	}
 	
 }

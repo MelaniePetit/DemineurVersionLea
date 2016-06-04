@@ -32,6 +32,7 @@ public class Main extends Application {
 			scene = new Scene(root,nblig*100,nbcol*100); 
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
+			primaryStage.setResizable(false);
 			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -43,7 +44,7 @@ public class Main extends Application {
 	}
 	
 	public BorderPane borderPane(GridPane gridGame){
-		final Label topLabel = new Label("Jouer au démineur!"); 
+		final Label topLabel = new Label("Jouer au demineur!"); 
         topLabel.setStyle("-fx-alignment: center;"); 
         topLabel.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE); 
         topLabel.setMinHeight(50); 
