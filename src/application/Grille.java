@@ -16,7 +16,7 @@ public class Grille extends Parent{
 	int nblignes;
 	int nbcolonnes;
 	ArrayList<Case> cases = new ArrayList<Case>();
-	int nbBombes=25;
+	int nbBombes = 10;
 	
 	public Grille(int nblig, int nbcol){
 		nblignes=nblig;
@@ -25,7 +25,7 @@ public class Grille extends Parent{
 		for(int i = 0; i < nbBombes ; i++){
 			initialisationBombes();
 		}
-		for(int i = 0 ; i< cases.size() ; i++){
+		for(int i = 0 ; i < cases.size() ; i++){
 			caseVoisins(cases.get(i));
 		}
 		
@@ -59,40 +59,35 @@ public class Grille extends Parent{
 
         // Ajout des boutons
         for (int i = 0; i < row; i++) {
-                    for (int j = 0; j < col; j++) {
-                    		   Case c = cases.get(i*nbcolonnes+j);
-                               c.setStyle("-fx-background-color: white;");
-                               //t.setWrappingWidth(100);
-                               gridGame.add(c, j, i);
-                               
-                               c.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                                   
-                                   @Override
-                                   public void handle(MouseEvent event) {
-                                	   if (c.isBombe()){
-                                           c.setStyle("-fx-background-color: red;");
-                                           theEnd();
+            for (int j = 0; j < col; j++) {
+    		   Case c = cases.get(i*nbcolonnes+j);
+               c.setStyle("-fx-background-color: white;");
+               //t.setWrappingWidth(100);
+               gridGame.add(c, j, i);
+               
+               c.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                   
+                   @Override
+                   public void handle(MouseEvent event) {
+                	   if (c.isBombe()){
+                           c.setStyle("-fx-background-color: red;");
+                           theEnd();
 
-                                	   } else {
-                                		   compteurBombe(c);
-                                		   c.afficherNbBombes();
-                                           c.setStyle("-fx-background-color: blue;");
-                                	   }
-                                	   /*for (Case v : c.voisins){
-                                		   System.out.println(v.getIndex());
-                                	   } verif voisins*/
-                                	   
-                                   }
-                                   
-                               });
-                    }
+                	   } else {
+                		   compteurBombe(c);
+                		   c.afficherNbBombes();
+                           c.setStyle("-fx-background-color: blue;");
+                           checkCases(c);
+                	   }
+                   }
+               });
+            }
         }
         gridGame.setGridLinesVisible(true);
         return gridGame;
 	}
 	
 	public void initialisationBombes(){
-		int nbCases = cases.size();
 		Random r = new Random();
 		int caseHasard = r.nextInt(nblignes*nbcolonnes); //Entre 0 et nblignes*nbcolonnes
 		if (!cases.get(caseHasard).isBombe()){
@@ -103,12 +98,13 @@ public class Grille extends Parent{
 		System.out.println("J'ai pose une bombe sur la case d'index "+caseHasard);		
 	}
 	
-	public void theEnd() {
+	public void theEnd(){
 		//afficher le score
 		//Afficher perdu
 		//Empecher de jouer
 	}
 	
+	// on ajout a la case tous ces voisins
 	public void caseVoisins(Case c){
 			int j = c.getIndex()%nbcolonnes; //colonne
 			int i = (c.getIndex()-j)/nbcolonnes; //ligne
@@ -157,13 +153,69 @@ public class Grille extends Parent{
 	}
 	
 	public void compteurBombe(Case c){
+		c.nbBombesAutour = 0;
 		for (Case v : c.voisins){
 			if (v.isBombe()){
 				c.setNbBombesAutour(c.nbBombesAutour +1);
 			}
- 		   System.out.println(c.nbBombesAutour);
 		}
 		
 	}
 	
+	// on recupere les voisins : haut, bas, droite, gauche
+	public void listeCheck(Case c){
+		int j = c.getIndex()%nbcolonnes; //colonne
+		int i = (c.getIndex()-j)/nbcolonnes; //ligne
+		
+		if(j>0){
+			Case gauche = cases.get(c.getIndex()-1);
+			c.ajouterCheck(gauche);
+			
+		}
+		
+		if (i>0) {
+			Case haut = cases.get(c.getIndex()-nbcolonnes);
+			c.ajouterCheck(haut);
+			
+		}
+		
+		if (i< nblignes-1){
+			Case bas = cases.get(c.getIndex()+nbcolonnes);
+			c.ajouterCheck(bas);
+
+		}
+		
+		if (j<nbcolonnes-1){
+			Case droite = cases.get(c.getIndex()+1);
+			c.ajouterCheck(droite);
+		}
+
+	}
+	
+	//si la case selectionnee n'a pas de bombe autour d'elle, on regarde les cases autours
+	public void checkCases(Case c){
+		if (c.nbBombesAutour == 0 && !(c.isVerif())){
+			c.setVerif(true);
+			listeCheck(c);
+			for (Case v : c.caseCheck){
+				System.out.println(c.getIndex()+" a pour voisin "+v.getIndex());
+
+			}
+ 			for (Case v : c.voisins){
+				System.out.println(v.getIndex());
+				if (!(v.isBombe()) && !(v.isVerif())){
+					System.out.println("on check "+v.getIndex());
+					compteurBombe(v);
+         		   	v.afficherNbBombes();
+	                v.setStyle("-fx-background-color: blue;");
+				}
+				
+			}
+ 			for (Case v : c.caseCheck){
+ 				checkCases(v);
+ 			}
+
+		}
+	}
+		
 }

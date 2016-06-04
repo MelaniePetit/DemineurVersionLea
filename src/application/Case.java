@@ -8,12 +8,14 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-public class Case extends Region {
+public class Case extends Parent {
 
 	private boolean bombe;
 	private int index;	
 	protected ArrayList<Case> voisins = new ArrayList<Case>(); 
+	protected ArrayList<Case> caseCheck = new ArrayList<Case>(); 
 	protected int nbBombesAutour = 0;
+	protected boolean verif = false;
 	
 	public Case(int index){
 		this.index=index;
@@ -23,6 +25,10 @@ public class Case extends Region {
 		return bombe;
 	}
 
+	public int nbVoisins(){
+		return voisins.size();
+	}
+	
 	public void setBombe(boolean bombe) {
 		this.bombe = bombe;
 	}
@@ -39,6 +45,18 @@ public class Case extends Region {
 		this.voisins.add(c);
 	}
 	
+	public void ajouterCheck(Case c){
+		this.caseCheck.add(c);
+	}
+	
+	public ArrayList<Case> getCasecheck() {
+		return caseCheck;
+	}
+
+	public void setCasecheck(ArrayList<Case> casecheck) {
+		this.caseCheck = casecheck;
+	}
+
 	public String nbBombes(){
 		return Integer.toString(nbBombesAutour);
 	}
@@ -57,6 +75,14 @@ public class Case extends Region {
 
 	public void setNbBombesAutour(int nbBombesAutour) {
 		this.nbBombesAutour = nbBombesAutour;
+	}
+
+	public boolean isVerif() {
+		return verif;
+	}
+
+	public void setVerif(boolean verif) {
+		this.verif = verif;
 	}
 
 	public void afficherNbBombes(){

@@ -21,8 +21,8 @@ import javafx.scene.text.TextAlignment;
 public class Main extends Application {
 	
 	public Scene scene;
-	public int nbcol=10;
-	public int nblig=10;
+	public int nbcol = 10;
+	public int nblig = 10;
 	
 	public void start(Stage primaryStage) {
 		try {
