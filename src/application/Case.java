@@ -2,13 +2,12 @@ package application;
 
 import java.util.ArrayList;
 
-import javafx.scene.Parent;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-public class Case extends Parent {
+public class Case extends Region {
 
 	private boolean bombe;
 	private int index;	

@@ -3,6 +3,9 @@ package application;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.input.MouseEvent;
@@ -70,7 +73,7 @@ public class Grille extends Parent{
                    @Override
                    public void handle(MouseEvent event) {
                 	   if (c.isBombe()){
-                           c.setStyle("-fx-background-color: red;");
+                		   c.setStyle("-fx-background-color: red;");
                            theEnd();
 
                 	   } else {
@@ -99,9 +102,18 @@ public class Grille extends Parent{
 	}
 	
 	public void theEnd(){
-		//afficher le score
+		//afficher le score 
+		// Il y a pas vraiment de score...
+		
 		//Afficher perdu
+		ImageIcon img;
+		JOptionPane jop = new JOptionPane();
+		String fin = "La partie est terminee \n";
+		fin += "\nDommage vous avez fait exploser une bombe !";
+		img = new ImageIcon("images/looser.jpg");
+        jop.showMessageDialog(null, fin, "Fin de la partie", JOptionPane.INFORMATION_MESSAGE,img); 
 		//Empecher de jouer
+        
 	}
 	
 	// on ajout a la case tous ces voisins
