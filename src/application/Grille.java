@@ -12,6 +12,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 public class Grille extends Parent{
@@ -20,6 +21,7 @@ public class Grille extends Parent{
 	int nbcolonnes;
 	ArrayList<Case> cases = new ArrayList<Case>();
 	int nbBombes = 10;
+	int bombesDecouvertes = 0;
 	
 	public Grille(int nblig, int nbcol){
 		nblignes=nblig;
@@ -72,15 +74,44 @@ public class Grille extends Parent{
                    
                    @Override
                    public void handle(MouseEvent event) {
-                	   if (c.isBombe()){
-                		   c.setStyle("-fx-background-color: red;");
-                           theEnd();
-
-                	   } else {
-                		   compteurBombe(c);
-                		   c.afficherNbBombes();
-                           c.setStyle("-fx-background-color: blue;");
-                           checkCases(c);
+                	   String s = event.getButton().toString(); 
+                	  
+                	   //clic droit
+                	   if(s == "SECONDARY"){
+                		   if (!c.isVerif()){
+                			   if (!c.drapeau){
+                				   c.setDrapeau(true);
+                				   bombesDecouvertes ++;
+                				   c.logoDrapeau.setVisible(true);
+                				   c.setStyle("-fx-background-color: cyan;");
+                			   }
+                			   else{ 
+                				   c.setDrapeau(false);
+                				   c.logoDrapeau.setVisible(false);
+                				   bombesDecouvertes --;
+                				   c.setStyle("-fx-background-color: white;");
+                			   }
+                    		   //mettre en place les drapeaux
+                    		   gagner();
+                		   }  
+                	   }
+                	   
+                	   //clic gauche
+                	   if(s == "PRIMARY"){
+                		   if (!c.isVerif()){
+	                		   if (c.isBombe()){
+	                    		   //c.setStyle("-fx-background-color: red;");
+	                               c.bombe();
+	                    		   perdre();
+	
+	                    	   } else {
+	                    		   compteurBombe(c);
+	                    		   c.afficherNbBombes();
+	                               c.setStyle("-fx-background-color: #9966FF;");
+	                               checkCases(c);
+	                               gagner();
+	                    	   } 
+                		   }
                 	   }
                    }
                });
@@ -101,7 +132,21 @@ public class Grille extends Parent{
 		System.out.println("J'ai pose une bombe sur la case d'index "+caseHasard);		
 	}
 	
-	public void theEnd(){
+	public int gagner(){
+		if (bombesDecouvertes == nbBombes){  
+			for (Case c : cases){
+				if (!c.isVerif()){
+					System.out.println("bouh");
+					return 0;
+				}
+			}
+			System.out.println("GAGNE");
+		}
+		return 1;
+		
+	}
+	
+	public void perdre(){
 		//afficher le score 
 		// Il y a pas vraiment de score...
 		
@@ -209,25 +254,25 @@ public class Grille extends Parent{
 		if (c.nbBombesAutour == 0 && !(c.isVerif())){
 			c.setVerif(true);
 			listeCheck(c);
-			for (Case v : c.caseCheck){
+			/*for (Case v : c.caseCheck){
 				System.out.println(c.getIndex()+" a pour voisin "+v.getIndex());
 
-			}
+			}*/
  			for (Case v : c.voisins){
-				System.out.println(v.getIndex());
+				//System.out.println(v.getIndex());
 				if (!(v.isBombe()) && !(v.isVerif())){
-					System.out.println("on check "+v.getIndex());
+					//System.out.println("on check "+v.getIndex());
 					compteurBombe(v);
          		   	v.afficherNbBombes();
-	                v.setStyle("-fx-background-color: blue;");
+         		   	v.setStyle("-fx-background-color: #9966FF ;");
 				}
 				
 			}
  			for (Case v : c.caseCheck){
  				checkCases(v);
  			}
-
 		}
+		c.setVerif(true);
 	}
 		
 }
