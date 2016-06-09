@@ -35,13 +35,10 @@ public class MGrille extends Observable {
 	}
 	
 	public void initialisationListeCases(){
-		int ok=0;
 		for(int i=0;i<nblignes*nbcolonnes;i++){
 			//On ajoute les cases avec leurs index
 			cases.add(new MCase(i));
-			ok++;
 		}
-		System.out.println("J'ai créé "+ok+" cases! \n");
 	}
 	
 	public void initialisationBombes(){
@@ -52,7 +49,7 @@ public class MGrille extends Observable {
 		} else {
 			initialisationBombes();
 		}
-		System.out.println("J'ai pose une bombe sur la case d'index "+caseHasard);		
+		//System.out.println("J'ai pose une bombe sur la case d'index "+caseHasard);		
 	}
 	
 	public void caseVoisins(MCase c){

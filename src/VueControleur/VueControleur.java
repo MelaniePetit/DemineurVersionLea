@@ -125,10 +125,10 @@ public class VueControleur extends Application implements Observer {
         rightLabel.setStyle("-fx-alignment: center;"); 
         rightLabel.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE); 
         rightLabel.setMinWidth(50); 
-        final Label bottomLabel = new Label("Nombre de bombes : "+g.getNbBombes()+" \nNombre de bombes découvertes : "+g.getBombesDecouvertes()); 
-        bottomLabel.setStyle("-fx-alignment: center;"); 
-        bottomLabel.setMinHeight(50); 
-        bottomLabel.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE); 
+        //final Label bottomLabel = new Label("Nombre de bombes : "+g.getNbBombes()+" \nNombre de bombes découvertes : "+g.getBombesDecouvertes()); 
+        //bottomLabel.setStyle("-fx-alignment: center;"); 
+        //bottomLabel.setMinHeight(50); 
+        //bottomLabel.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE); 
         final Label leftLabel = new Label(); 
         leftLabel.setStyle("-fx-alignment: center;"); 
         leftLabel.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE); 
@@ -137,7 +137,7 @@ public class VueControleur extends Application implements Observer {
 		BorderPane root = new BorderPane();
         root.setTop(topLabel); 
         root.setRight(rightLabel); 
-        root.setBottom(bottomLabel); 
+        root.setBottom(score()); 
         root.setLeft(leftLabel); 
         root.setCenter(gridGame); 
         return root;
@@ -156,9 +156,15 @@ public class VueControleur extends Application implements Observer {
 				
 	}
 	
+	public Text score(){
+		Text score = new Text("Nombre de bombes : "+g.getNbBombes()+" \nNombre de bombes découvertes : "+g.getBombesDecouvertes());
+        score.setFont(new Font(25));
+        score.setFill(Color.WHITE);
+        score.setTranslateX(35);
+        return score;
+	}
+	
 	public void perdre(){
-		//afficher le score 
-		// Il y a pas vraiment de score...
 		
 		//Afficher perdu
 		ImageIcon img;
@@ -167,7 +173,8 @@ public class VueControleur extends Application implements Observer {
 		fin += "\nDommage vous avez fait exploser une bombe !";
 		img = new ImageIcon("images/looser.jpg");
         jop.showMessageDialog(null, fin, "Fin de la partie", JOptionPane.INFORMATION_MESSAGE,img); 
-		//Empecher de jouer
+		//Rajouter bouton QUITTER et bouton REJOUER
+        //Empecher de jouer
         
 	}
 	public void victoire(){
