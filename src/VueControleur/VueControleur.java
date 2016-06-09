@@ -173,22 +173,21 @@ public class VueControleur extends Application implements Observer {
 	
 	
 	
-	/*public void afficherNbBombes(Node a){
-		Text nbVoisin = new Text(""+g.getNbBombes());
+	public void afficherNbBombes(MCase c){
+		
+		Text nbVoisin = new Text(""+c.getNbBombesAutour());
 		
 		nbVoisin.setFont(new Font(25));
 		nbVoisin.setFill(Color.BLACK);
 		nbVoisin.setX(38);
 		nbVoisin.setY(50);
-		nbVoisin.setVisible(false);
-
 		
-		a.getChildren().add(nbVoisin);//ajout de la lettre de la touche
-		if (c.getNbBombesAutour() != 0){
-			   nbVoisin.setVisible(true);
-		   }
+		int j = c.getIndex()%(g.getNbcolonnes()); //colonne
+		int i = (c.getIndex()-j)/(g.getNbcolonnes()); //ligne
 		
-	}*/
+		gridGame.add(nbVoisin, j, i);
+		
+	}
 
 	/*public void bombe(MCase c){
 		//this.setStyle("-fx-background-color: red;");
@@ -217,14 +216,18 @@ public class VueControleur extends Application implements Observer {
 		
 		System.out.println("hello2");
 		for(MCase c : g.getCases()){
-			ImageView i = map.get(c);
+			Node i = map.get(c);
+			if (c.isChiffre()){
+				afficherNbBombes(c);
+			}
 			if (c.isDrapeau()){
-				i.setImage(new Image(getClass().getResourceAsStream("drapeau.jpg")));
+				((ImageView) i).setImage(new Image(getClass().getResourceAsStream("drapeau.jpg")));
 			} else {
 				//supprimer l'autre image??
-				i.setImage(new Image(getClass().getResourceAsStream("case.jpg")));
+				((ImageView) i).setImage(new Image(getClass().getResourceAsStream("case.jpg")));
 			}
 		}
+		
 		//enlever le drapeau quand ...
 		
 		//fonction qui dit pour chaque case 

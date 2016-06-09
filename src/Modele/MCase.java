@@ -21,16 +21,16 @@ public class MCase {
 	protected boolean verif = false;
 	protected boolean drapeau = false;
 	protected boolean bloque = false;
+	protected boolean chiffre = false;
 	
-		
 	public MCase(int index){
 		this.index=index;
 	}
 	
 	public MCase(int index, ImageView a){
 		this.index = index;
-		/*initCase(a);
-		drapeau(this,a);*/
+		initCase(a);
+		/*drapeau(this,a);*/
 	}
 	
 	public void initCase(ImageView a){
@@ -51,8 +51,8 @@ public class MCase {
 					if (!isDrapeau()){
 						setDrapeau(true);
 						//bombesDecouvertes ++;
-						/*c.setStyle("-fx-background-color: cyan;");
-						c.setBloque(true);*/
+						/*c.setStyle("-fx-background-color: cyan;");*/
+						setBloque(true);
 					}
 					else{ 
 						setDrapeau(false);
@@ -70,14 +70,15 @@ public class MCase {
 				if (!isVerif() && !isBloque()){
 					if (isBombe()){
 						//c.setStyle("-fx-background-color: red;");
-						/*c.bombe();
-						perdre();*/
+						//bombe();
+						//perdre();
 
 					} else {
-						/*compteurBombe(c);
-						c.afficherNbBombes();
-						c.setStyle("-fx-background-color: #9966FF;");
-						checkCases(c);*/
+						chiffre = true;
+						compteurBombe();
+						//c.setStyle("-fx-background-color: #9966FF;");
+						checkCases(this);
+						setBloque(true);
 					} 
 				}
 				if (isBloque()){
@@ -88,6 +89,41 @@ public class MCase {
 			}
 		}
 
+	public void checkCases(){
+		if (nbBombesAutour == 0 && !(isVerif())){
+			setVerif(true);
+			listeCheck();
+			/*for (Case v : c.caseCheck){
+			System.out.println(c.getIndex()+" a pour voisin "+v.getIndex());
+
+		}*/
+			for (MCase v : voisins){
+				//System.out.println(v.getIndex());
+				if (!(v.isBombe()) && !(v.isVerif())){
+					//System.out.println("on check "+v.getIndex());
+					compteurBombe();
+					/*v.setStyle("-fx-background-color: #9966FF ;");*/
+				}
+
+			}
+			for (MCase v : caseCheck){
+				checkCases(v);
+			}
+		}
+		setVerif(true);
+	}
+	
+
+	
+	public void compteurBombe(){
+		nbBombesAutour = 0;
+		for (MCase v : voisins){
+			if (v.isBombe()){
+				setNbBombesAutour(nbBombesAutour +1);
+			}
+		}
+
+	}
 	
 	public boolean isBloque() {
 		return bloque;
@@ -179,6 +215,11 @@ public class MCase {
 
 	public void setVerif(boolean verif) {
 		this.verif = verif;
+	}
+
+	public boolean isChiffre() {
+		// TODO Auto-generated method stub
+		return chiffre;
 	}
 
 }

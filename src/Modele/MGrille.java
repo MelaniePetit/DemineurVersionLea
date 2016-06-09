@@ -93,6 +93,7 @@ public class MGrille extends Observable {
 			}
 
 		}
+	
 		
 		if (j<nbcolonnes-1){
 			MCase droite = cases.get(c.getIndex()+1);
@@ -100,17 +101,7 @@ public class MGrille extends Observable {
 		}
 
 	}
-
-	public void compteurBombe(MCase c){
-		c.nbBombesAutour = 0;
-		for (MCase v : c.voisins){
-			if (v.isBombe()){
-				c.setNbBombesAutour(c.nbBombesAutour +1);
-			}
-		}
-
-	}
-
+	
 	// on recupere les voisins : haut, bas, droite, gauche
 	public void listeCheck(MCase c){
 		int j = c.getIndex()%nbcolonnes; //colonne
@@ -141,31 +132,9 @@ public class MGrille extends Observable {
 
 	}
 
-	//si la case selectionnee n'a pas de bombe autour d'elle, on regarde les cases autours
-	public void checkCases(MCase c){
-		if (c.nbBombesAutour == 0 && !(c.isVerif())){
-			c.setVerif(true);
-			listeCheck(c);
-			/*for (Case v : c.caseCheck){
-			System.out.println(c.getIndex()+" a pour voisin "+v.getIndex());
 
-		}*/
-			for (MCase v : c.voisins){
-				//System.out.println(v.getIndex());
-				if (!(v.isBombe()) && !(v.isVerif())){
-					//System.out.println("on check "+v.getIndex());
-					compteurBombe(v);
-					/*v.afficherNbBombes();
-					v.setStyle("-fx-background-color: #9966FF ;");*/
-				}
 
-			}
-			for (MCase v : c.caseCheck){
-				checkCases(v);
-			}
-		}
-		c.setVerif(true);
-	}
+
 	
 	//getters and setters
 	
@@ -191,6 +160,22 @@ public class MGrille extends Observable {
 
 	public void setBombesDecouvertes(int bombesDecouvertes) {
 		this.bombesDecouvertes = bombesDecouvertes;
+	}
+
+	public int getNblignes() {
+		return nblignes;
+	}
+
+	public void setNblignes(int nblignes) {
+		this.nblignes = nblignes;
+	}
+
+	public int getNbcolonnes() {
+		return nbcolonnes;
+	}
+
+	public void setNbcolonnes(int nbcolonnes) {
+		this.nbcolonnes = nbcolonnes;
 	}
 
 
