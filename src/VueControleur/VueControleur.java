@@ -170,38 +170,50 @@ public class VueControleur extends Application implements Observer {
 		//Empecher de jouer
         
 	}
+	public void victoire(){
+		//afficher le score 
+		// Il y a pas vraiment de score...
+		
+		//Afficher perdu
+		ImageIcon img;
+		JOptionPane jop = new JOptionPane();
+		String fin = "La partie est terminee \n";
+		fin += "\nBravo vous avez gagne !!";
+		img = new ImageIcon("images/winner.png");
+        jop.showMessageDialog(null, fin, "Fin de la partie", JOptionPane.INFORMATION_MESSAGE,img); 
+		//Rajouter bouton QUITTER et bouton REJOUER
+        
+	}
 	
 	
 	
 	public void afficherNbBombes(MCase c){
-		
+		if (c.getNbBombesAutour() != 0){
 		Text nbVoisin = new Text(""+c.getNbBombesAutour());
 		
 		nbVoisin.setFont(new Font(25));
-		nbVoisin.setFill(Color.BLACK);
-		nbVoisin.setX(38);
-		nbVoisin.setY(50);
+		nbVoisin.setFill(Color.WHITE);
+		nbVoisin.setTranslateX(35);
 		
 		int j = c.getIndex()%(g.getNbcolonnes()); //colonne
 		int i = (c.getIndex()-j)/(g.getNbcolonnes()); //ligne
 		
 		gridGame.add(nbVoisin, j, i);
-		
+		}
 	}
 
-	/*public void bombe(MCase c){
+	//inutile !
+	public void bombe(MCase c, ImageView logoBombe){
 		//this.setStyle("-fx-background-color: red;");
 		logoBombe.setFitHeight(90);
 		logoBombe.setPreserveRatio(true);
 		logoBombe.setVisible(false);
 		
-		//c.getChildren().add(logoBombe);
-		if (c.isBombe()){
-			   logoBombe.setVisible(true);
-		   }
+		gridGame.getChildren().add(logoBombe);
 	    
-	}*/
+	}
 	
+	//inutile ! 
 	public void drapeau(MCase c, ImageView logoDrapeau){
 		logoDrapeau.setFitHeight(100);
 		logoDrapeau.setPreserveRatio(true);
@@ -213,22 +225,30 @@ public class VueControleur extends Application implements Observer {
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		
-		System.out.println("hello2");
+		g.setBombesDecouvertes(0);
 		for(MCase c : g.getCases()){
 			Node i = map.get(c);
-			if (c.isChiffre()){
-				afficherNbBombes(c);
-			}
 			if (c.isDrapeau()){
+				g.setBombesDecouvertes(g.getBombesDecouvertes() +1);
 				((ImageView) i).setImage(new Image(getClass().getResourceAsStream("drapeau.jpg")));
 			} else {
 				//supprimer l'autre image??
+				g.setBombesDecouvertes(g.getBombesDecouvertes() -1);
 				((ImageView) i).setImage(new Image(getClass().getResourceAsStream("case.jpg")));
+			}
+			if (c.isChiffre()){
+				afficherNbBombes(c);
+				((ImageView) i).setImage(new Image(getClass().getResourceAsStream("carre.png")));
+			}
+			if (c.isClickBombe()){
+				((ImageView) i).setImage(new Image(getClass().getResourceAsStream("bombe.jpg")));
+				perdre();
+			}
+			if (g.gagnee()){
+				victoire();
 			}
 		}
 		
-		//enlever le drapeau quand ...
 		
 		//fonction qui dit pour chaque case 
 		//
@@ -238,5 +258,5 @@ public class VueControleur extends Application implements Observer {
 		// qui declenche la notif cote vue?
 	}
 	
-	
+	//PROBLEME : 
 }

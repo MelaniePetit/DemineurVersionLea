@@ -29,6 +29,7 @@ public class MGrille extends Observable {
 		}
 		for(int i = 0 ; i < cases.size() ; i++){
 			caseVoisins(cases.get(i));
+			listeCheck(cases.get(i));
 		}
 		
 	}
@@ -129,12 +130,22 @@ public class MGrille extends Observable {
 			MCase droite = cases.get(c.getIndex()+1);
 			c.ajouterCheck(droite);
 		}
-
 	}
+	
+	public boolean gagnee(){
+		int compt = 0;
+		for (MCase v : cases){
+			if (v.isDrapeau() == true && v.isBombe() == true){
+				compt ++;
 
-
-
-
+			}
+		}
+		if (compt == nbBombes){
+			return true;
+		}
+		return false;
+	}
+	
 	
 	//getters and setters
 	
@@ -177,6 +188,5 @@ public class MGrille extends Observable {
 	public void setNbcolonnes(int nbcolonnes) {
 		this.nbcolonnes = nbcolonnes;
 	}
-
 
 }

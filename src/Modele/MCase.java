@@ -14,6 +14,7 @@ public class MCase {
 
 
 	private boolean bombe;
+	protected boolean clickBombe = false;
 	private int index;	
 	protected ArrayList<MCase> voisins = new ArrayList<MCase>(); 
 	protected ArrayList<MCase> caseCheck = new ArrayList<MCase>(); 
@@ -30,7 +31,6 @@ public class MCase {
 	public MCase(int index, ImageView a){
 		this.index = index;
 		initCase(a);
-		/*drapeau(this,a);*/
 	}
 	
 	public void initCase(ImageView a){
@@ -51,15 +51,12 @@ public class MCase {
 					if (!isDrapeau()){
 						setDrapeau(true);
 						//bombesDecouvertes ++;
-						/*c.setStyle("-fx-background-color: cyan;");*/
 						setBloque(true);
 					}
 					else{ 
 						setDrapeau(false);
-						/*c.logoDrapeau.setVisible(false);
-						bombesDecouvertes --;
-						c.setStyle("-fx-background-color: white;");
-						c.setBloque(false);*/
+						setBloque(false);
+						//bombesDecouvertes --
 					}
 					//gagner();
 				}  
@@ -69,14 +66,11 @@ public class MCase {
 			if(s == "PRIMARY"){
 				if (!isVerif() && !isBloque()){
 					if (isBombe()){
-						//c.setStyle("-fx-background-color: red;");
-						//bombe();
-						//perdre();
-
-					} else {
-						chiffre = true;
+						setClickBombe(true);
+						
+					} else {				
 						compteurBombe();
-						//c.setStyle("-fx-background-color: #9966FF;");
+						setChiffre(true);
 						checkCases(this);
 						setBloque(true);
 					} 
@@ -88,33 +82,17 @@ public class MCase {
 
 			}
 		}
+	
 
-	public void checkCases(){
-		if (nbBombesAutour == 0 && !(isVerif())){
-			setVerif(true);
-			listeCheck();
-			/*for (Case v : c.caseCheck){
-			System.out.println(c.getIndex()+" a pour voisin "+v.getIndex());
-
-		}*/
-			for (MCase v : voisins){
-				//System.out.println(v.getIndex());
-				if (!(v.isBombe()) && !(v.isVerif())){
-					//System.out.println("on check "+v.getIndex());
-					compteurBombe();
-					/*v.setStyle("-fx-background-color: #9966FF ;");*/
-				}
-
-			}
-			for (MCase v : caseCheck){
-				checkCases(v);
-			}
-		}
-		setVerif(true);
+	
+	private void setClickBombe(boolean b) {
+		clickBombe = b;		
 	}
-	
 
-	
+	public void setChiffre(boolean b) {
+		chiffre=b;		
+	}
+
 	public void compteurBombe(){
 		nbBombesAutour = 0;
 		for (MCase v : voisins){
@@ -124,6 +102,33 @@ public class MCase {
 		}
 
 	}
+	
+	public void checkCases(MCase c){
+		//System.out.println("Je chech la case :"+c.getIndex());
+		if (c.getNbBombesAutour() == 0 && !(c.isVerif())){
+			c.setVerif(true);
+			//System.out.println("Je chech la case:"+c.getIndex());
+			/*for (MCase v : c.caseCheck){
+			System.out.println(c.getIndex()+" a pour voisin "+v.getIndex());
+
+			}*/
+			for (MCase v : c.voisins){
+				//System.out.println(v.getIndex());
+				if (!(v.isBombe()) && !(v.isChiffre())){
+					//System.out.println("on check "+v.getIndex());
+					v.compteurBombe();
+					v.setChiffre(true);
+
+				}
+
+			}
+			for (MCase v : c.caseCheck){
+				//System.out.println("on check "+v.getIndex());
+				checkCases(v);
+			}
+		}
+	}
+
 	
 	public boolean isBloque() {
 		return bloque;
@@ -220,6 +225,11 @@ public class MCase {
 	public boolean isChiffre() {
 		// TODO Auto-generated method stub
 		return chiffre;
+	}
+
+	public boolean isClickBombe() {
+		// TODO Auto-generated method stub
+		return clickBombe;
 	}
 
 }
