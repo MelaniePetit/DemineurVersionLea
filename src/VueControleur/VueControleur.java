@@ -3,6 +3,7 @@ package VueControleur;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Optional;
 
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -10,13 +11,16 @@ import javax.swing.JOptionPane;
 import Modele.MCase;
 import Modele.MGrille;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.effect.Light;
-import javafx.scene.effect.Lighting;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -38,6 +42,7 @@ public class VueControleur extends Application implements Observer {
 	protected ImageView maCase;
 	public GridPane gridGame;
 	private HashMap<MCase,ImageView> map;
+	private Stage again;
 	
 	public void start(Stage primaryStage) {
 		try {
@@ -145,14 +150,31 @@ public class VueControleur extends Application implements Observer {
 	
 	public void gagner(){
 		if (g.getBombesDecouvertes() == g.getNbBombes()){  // verifier emplacement des bombes
-			//Afficher gagn√©
-			ImageIcon img;
+			//Afficher gagner, ‡ revoir sans utiliser Swing
+			/*ImageIcon img;
 			JOptionPane jop = new JOptionPane();
 			String fin = "La partie est termin√©e \n";
 			fin += "\n F√©licitation vous avez gagn√©! !";
 			img = new ImageIcon("images/winner.jpg");
 	        jop.showMessageDialog(null, fin, "Fin de la partie", JOptionPane.INFORMATION_MESSAGE,img); 
+			}*/
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("La partie est terminee !");
+			alert.setHeaderText("FÈlicitation vous avez gagnÈ !!");
+			alert.setContentText("Que voulez-vous faire ?");
+
+			ButtonType buttonTypeOne = new ButtonType("Rejouer");
+			ButtonType buttonTypeTwo = new ButtonType("Quitter");
+
+			alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo);
+
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == buttonTypeOne){
+			    // ... user chose "One"
+			} else if (result.get() == buttonTypeTwo) {
+			    Platform.exit();
 			}
+		}
 				
 	}
 	
@@ -167,14 +189,30 @@ public class VueControleur extends Application implements Observer {
 	public void perdre(){
 		
 		//Afficher perdu
-		ImageIcon img;
+		/*ImageIcon img;
 		JOptionPane jop = new JOptionPane();
 		String fin = "La partie est terminee \n";
 		fin += "\nDommage vous avez fait exploser une bombe !";
 		img = new ImageIcon("images/looser.jpg");
         jop.showMessageDialog(null, fin, "Fin de la partie", JOptionPane.INFORMATION_MESSAGE,img); 
 		//Rajouter bouton QUITTER et bouton REJOUER
-        //Empecher de jouer
+        //Empecher de jouer*/
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("La partie est terminee !");
+		alert.setHeaderText("Dommage vous avez perdu...");
+		alert.setContentText("Que voulez-vous faire ?");
+
+		ButtonType buttonTypeOne = new ButtonType("Rejouer");
+		ButtonType buttonTypeTwo = new ButtonType("Quitter");
+
+		alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo);
+
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == buttonTypeOne){
+		
+		} else if (result.get() == buttonTypeTwo) {
+		    Platform.exit();
+		}
         
 	}
 	public void victoire(){
