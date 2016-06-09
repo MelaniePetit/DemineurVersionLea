@@ -2,6 +2,11 @@ package application;
 
 import java.util.ArrayList;
 
+import javafx.scene.Node;
+import javafx.scene.effect.Light;
+import javafx.scene.effect.Lighting;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -15,10 +20,44 @@ public class Case extends Region {
 	protected ArrayList<Case> caseCheck = new ArrayList<Case>(); 
 	protected int nbBombesAutour = 0;
 	protected boolean verif = false;
-	
+	protected boolean drapeau = false;
+	protected  ImageView logoBombe;
+	protected  ImageView logoDrapeau;
+
 	public Case(int index){
-		this.index=index;
+		this.index = index;
+		logoBombe =  new ImageView(new Image(getClass().getResourceAsStream("bombe.jpg")));
+		logoDrapeau =  new ImageView(new Image(getClass().getResourceAsStream("drapeau.jpg")));
+		
+		Light.Distant light = new Light.Distant();
+		light.setAzimuth(-45.0);
+		light.setColor(Color.web("#FFCCFF"));
+		Lighting li = new Lighting();
+		li.setLight(light);
+		this.setEffect(li);
+		drapeau();
+
 	}
+
+	public ArrayList<Case> getCaseCheck() {
+		return caseCheck;
+	}
+
+
+	public void setCaseCheck(ArrayList<Case> caseCheck) {
+		this.caseCheck = caseCheck;
+	}
+
+
+	public boolean isDrapeau() {
+		return drapeau;
+	}
+
+
+	public void setDrapeau(boolean drapeau) {
+		this.drapeau = drapeau;
+	}
+
 
 	public boolean isBombe() {
 		return bombe;
@@ -88,11 +127,38 @@ public class Case extends Region {
 		Text nbVoisin = new Text(nbBombes());
 		
 		nbVoisin.setFont(new Font(25));
-		nbVoisin.setFill(Color.WHITE);
+		nbVoisin.setFill(Color.BLACK);
 		nbVoisin.setX(38);
 		nbVoisin.setY(50);
+		nbVoisin.setVisible(false);
+
 		
 		this.getChildren().add(nbVoisin);//ajout de la lettre de la touche
-	    nbVoisin.setVisible(true);
+		if (nbBombesAutour != 0){
+			   nbVoisin.setVisible(true);
+		   }
+		
+	}
+	
+	public void bombe(){
+		//this.setStyle("-fx-background-color: red;");
+		logoBombe.setFitHeight(90);
+		logoBombe.setPreserveRatio(true);
+		logoBombe.setVisible(false);
+		
+		this.getChildren().add(logoBombe);
+		if (isBombe()){
+			   logoBombe.setVisible(true);
+		   }
+	    
+	}
+		
+	public void drapeau(){
+		logoDrapeau.setFitHeight(100);
+		logoDrapeau.setPreserveRatio(true);
+		logoDrapeau.setVisible(false);
+
+		this.getChildren().add(logoDrapeau);
+
 	}
 }
