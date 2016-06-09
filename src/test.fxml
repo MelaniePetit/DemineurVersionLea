@@ -10,12 +10,11 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="748.0" prefWidth="849.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.60">
+<AnchorPane prefHeight="748.0" prefWidth="849.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <BorderPane layoutX="-246.0" layoutY="10.0" prefHeight="613.0" prefWidth="743.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <top>
-            <Label alignment="CENTER" text="Démieneur" textAlignment="CENTER" translateY="11.0" BorderPane.alignment="CENTER">
+            <Label alignment="CENTER" text="Démineur" textAlignment="CENTER" translateY="11.0" BorderPane.alignment="CENTER">
                <font>
                   <Font name="Papyrus" size="43.0" />
                </font>
@@ -49,7 +48,10 @@
             </GridPane>
          </center>
          <bottom>
-            <Button mnemonicParsing="false" text="Button" BorderPane.alignment="CENTER" />
+            <Button mnemonicParsing="false" text="Lancer la partie" translateY="-30.0" BorderPane.alignment="CENTER">
+               <font>
+                  <Font size="17.0" />
+               </font></Button>
          </bottom>
       </BorderPane>
    </children>

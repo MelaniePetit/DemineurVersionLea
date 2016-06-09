@@ -108,9 +108,10 @@ public class Grille extends Parent{
 	                    		   c.afficherNbBombes();
 	                               c.setStyle("-fx-background-color: #9966FF;");
 	                               checkCases(c);
-	                               gagner();
 	                    	   } 
                 		   }
+                		   gagner();
+
                 	   }
                    }
                });
@@ -131,18 +132,19 @@ public class Grille extends Parent{
 		System.out.println("J'ai pose une bombe sur la case d'index "+caseHasard);		
 	}
 	
-	public int gagner(){
+	public void gagner(){
+		int compt = 0;
 		if (bombesDecouvertes == nbBombes){  
 			for (Case c : cases){
-				if (!c.isVerif()){
-					System.out.println("bouh");
-					return 0;
+				if (c.isVerif() || c.isDrapeau() ){
+					compt ++ ;
+
 				}
-			}
+		}
+		if (compt == nbcolonnes*nblignes-1)
 			System.out.println("GAGNE");
 		}
-		return 1;
-		
+				
 	}
 	
 	public void perdre(){
