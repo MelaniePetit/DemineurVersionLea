@@ -91,7 +91,7 @@ public class VueControleur extends Application implements Observer {
 				MCase c = g.getCases().get(i*col+j);
 				ImageView a = new ImageView();
 				map.put(c, a); //regroupement de la case et de l'image
-				a.setImage(new Image(getClass().getResourceAsStream("case.jpg")));
+				a.setImage(new Image(getClass().getResourceAsStream("caseViolet.jpg")));
 				a.setStyle("-fx-background-color: white;");
 				a.setFitWidth(80);
 				a.setFitHeight(80);               
@@ -218,18 +218,18 @@ public class VueControleur extends Application implements Observer {
 			Node i = map.get(c);
 			if (c.isDrapeau()){
 				g.setBombesDecouvertes(g.getBombesDecouvertes() +1);
-				((ImageView) i).setImage(new Image(getClass().getResourceAsStream("drapeau.jpg")));
+				((ImageView) i).setImage(new Image(getClass().getResourceAsStream("drapeauViolet.jpg")));
 			} else {
 				//supprimer l'autre image??
 				g.setBombesDecouvertes(g.getBombesDecouvertes() -1);
-				((ImageView) i).setImage(new Image(getClass().getResourceAsStream("case.jpg")));
+				((ImageView) i).setImage(new Image(getClass().getResourceAsStream("caseViolet.jpg")));
 			}
 			if (c.isChiffre()){
 				afficherNbBombes(c);
-				((ImageView) i).setImage(new Image(getClass().getResourceAsStream("carre.png")));
+				((ImageView) i).setImage(new Image(getClass().getResourceAsStream("rose.jpg")));
 			}
 			if (c.isClickBombe()){
-				((ImageView) i).setImage(new Image(getClass().getResourceAsStream("bombe.jpg")));
+				((ImageView) i).setImage(new Image(getClass().getResourceAsStream("bombeViolette.jpg")));
 				perdre();
 			}
 			if (g.gagnee()){
