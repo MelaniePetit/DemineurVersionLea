@@ -34,15 +34,7 @@ public class MCase {
 	}
 	
 	public void initCase(ImageView a){
-		//logoBombe =  new ImageView(new Image(getClass().getResourceAsStream("bombe.jpg")));
-		//logoDrapeau =  new ImageView(new Image(getClass().getResourceAsStream("drapeau.jpg")));
-		
-		Light.Distant light = new Light.Distant();
-		light.setAzimuth(-45.0);
-		light.setColor(Color.web("#FFCCFF"));
-		Lighting li = new Lighting();
-		li.setLight(light);
-		a.setEffect(li);
+		//Inutile...
 	}
 	
 	public void clicDroitGauche(String s){
@@ -50,15 +42,12 @@ public class MCase {
 				if (!isVerif()){
 					if (!isDrapeau()){
 						setDrapeau(true);
-						//bombesDecouvertes ++;
 						setBloque(true);
 					}
 					else{ 
 						setDrapeau(false);
 						setBloque(false);
-						//bombesDecouvertes --
 					}
-					//gagner();
 				}  
 			}
 
@@ -78,8 +67,6 @@ public class MCase {
 				if (isBloque()){
 					//return;
 				}
-				//gagner();
-
 			}
 		}
 	
@@ -104,31 +91,21 @@ public class MCase {
 	}
 	
 	public void checkCases(MCase c){
-		//System.out.println("Je chech la case :"+c.getIndex());
 		if (c.getNbBombesAutour() == 0 && !(c.isVerif())){
 			c.setVerif(true);
-			//System.out.println("Je chech la case:"+c.getIndex());
-			/*for (MCase v : c.caseCheck){
-			System.out.println(c.getIndex()+" a pour voisin "+v.getIndex());
-
-			}*/
 			for (MCase v : c.voisins){
-				//System.out.println(v.getIndex());
 				if (!(v.isBombe()) && !(v.isChiffre())){
-					//System.out.println("on check "+v.getIndex());
 					v.compteurBombe();
 					v.setChiffre(true);
-
 				}
-
 			}
 			for (MCase v : c.caseCheck){
-				//System.out.println("on check "+v.getIndex());
 				checkCases(v);
 			}
 		}
 	}
 
+	//getter and setter
 	
 	public boolean isBloque() {
 		return bloque;
@@ -223,12 +200,10 @@ public class MCase {
 	}
 
 	public boolean isChiffre() {
-		// TODO Auto-generated method stub
 		return chiffre;
 	}
 
 	public boolean isClickBombe() {
-		// TODO Auto-generated method stub
 		return clickBombe;
 	}
 

@@ -103,7 +103,6 @@ public class VueControleur extends Application implements Observer {
 					@Override
 					public void handle(MouseEvent event) {
 						String s = event.getButton().toString(); 
-						System.out.println("hello");
 						//clic droit ou gauche
 
 						c.clicDroitGauche(s);
@@ -148,35 +147,6 @@ public class VueControleur extends Application implements Observer {
         return root;
 	}
 	
-	public void gagner(){
-		if (g.getBombesDecouvertes() == g.getNbBombes()){  // verifier emplacement des bombes
-			//Afficher gagner, ‡ revoir sans utiliser Swing
-			/*ImageIcon img;
-			JOptionPane jop = new JOptionPane();
-			String fin = "La partie est termin√©e \n";
-			fin += "\n F√©licitation vous avez gagn√©! !";
-			img = new ImageIcon("images/winner.jpg");
-	        jop.showMessageDialog(null, fin, "Fin de la partie", JOptionPane.INFORMATION_MESSAGE,img); 
-			}*/
-			Alert alert = new Alert(AlertType.CONFIRMATION);
-			alert.setTitle("La partie est terminee !");
-			alert.setHeaderText("FÈlicitation vous avez gagnÈ !!");
-			alert.setContentText("Que voulez-vous faire ?");
-
-			ButtonType buttonTypeOne = new ButtonType("Rejouer");
-			ButtonType buttonTypeTwo = new ButtonType("Quitter");
-
-			alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo);
-
-			Optional<ButtonType> result = alert.showAndWait();
-			if (result.get() == buttonTypeOne){
-			    // ... user chose "One"
-			} else if (result.get() == buttonTypeTwo) {
-			    Platform.exit();
-			}
-		}
-				
-	}
 	
 	public Text score(){
 		Text score = new Text("Nombre de bombes : "+g.getNbBombes()+" \nNombre de bombes d√©couvertes : "+g.getBombesDecouvertes());
@@ -188,15 +158,6 @@ public class VueControleur extends Application implements Observer {
 	
 	public void perdre(){
 		
-		//Afficher perdu
-		/*ImageIcon img;
-		JOptionPane jop = new JOptionPane();
-		String fin = "La partie est terminee \n";
-		fin += "\nDommage vous avez fait exploser une bombe !";
-		img = new ImageIcon("images/looser.jpg");
-        jop.showMessageDialog(null, fin, "Fin de la partie", JOptionPane.INFORMATION_MESSAGE,img); 
-		//Rajouter bouton QUITTER et bouton REJOUER
-        //Empecher de jouer*/
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("La partie est terminee !");
 		alert.setHeaderText("Dommage vous avez perdu...");
@@ -209,28 +170,31 @@ public class VueControleur extends Application implements Observer {
 
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == buttonTypeOne){
-		
+			//comment lancer une nouvelle partie ?
 		} else if (result.get() == buttonTypeTwo) {
 		    Platform.exit();
 		}
         
 	}
 	public void victoire(){
-		//afficher le score 
-		// Il y a pas vraiment de score...
-		
-		//Afficher perdu
-		ImageIcon img;
-		JOptionPane jop = new JOptionPane();
-		String fin = "La partie est terminee \n";
-		fin += "\nBravo vous avez gagne !!";
-		img = new ImageIcon("images/winner.png");
-        jop.showMessageDialog(null, fin, "Fin de la partie", JOptionPane.INFORMATION_MESSAGE,img); 
-		//Rajouter bouton QUITTER et bouton REJOUER
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("La partie est terminee !");
+		alert.setHeaderText("FÈlicitation vous avez gagnÈ !!");
+		alert.setContentText("Que voulez-vous faire ?");
+
+		ButtonType buttonTypeOne = new ButtonType("Rejouer");
+		ButtonType buttonTypeTwo = new ButtonType("Quitter");
+
+		alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo);
+
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == buttonTypeOne){
+			//comment lancer une nouvelle partie ?
+		} else if (result.get() == buttonTypeTwo) {
+		    Platform.exit();
+		}
         
 	}
-	
-	
 	
 	public void afficherNbBombes(MCase c){
 		if (c.getNbBombesAutour() != 0){
@@ -245,27 +209,6 @@ public class VueControleur extends Application implements Observer {
 		
 		gridGame.add(nbVoisin, j, i);
 		}
-	}
-
-	//inutile !
-	public void bombe(MCase c, ImageView logoBombe){
-		//this.setStyle("-fx-background-color: red;");
-		logoBombe.setFitHeight(90);
-		logoBombe.setPreserveRatio(true);
-		logoBombe.setVisible(false);
-		
-		gridGame.getChildren().add(logoBombe);
-	    
-	}
-	
-	//inutile ! 
-	public void drapeau(MCase c, ImageView logoDrapeau){
-		logoDrapeau.setFitHeight(100);
-		logoDrapeau.setPreserveRatio(true);
-		logoDrapeau.setVisible(false);
-
-		gridGame.getChildren().add(logoDrapeau);
-
 	}
 
 	@Override
