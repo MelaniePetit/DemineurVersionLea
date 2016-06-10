@@ -1,15 +1,17 @@
 package VueControleur;
 	
+import java.io.IOException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Optional;
 
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
 
 import Modele.MCase;
 import Modele.MGrille;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -18,12 +20,13 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -42,11 +45,18 @@ public class VueControleur extends Application implements Observer {
 	protected ImageView maCase;
 	public GridPane gridGame;
 	private HashMap<MCase,ImageView> map;
-	private Stage again;
+	
+	
+	//Ce qui concerne FXML (en cours de test)
+	@FXML
+	private Button quit;
+	
+	
 	
 	public void start(Stage primaryStage) {
 		try {
-			map = new HashMap<>();
+			
+            map = new HashMap<>();
 			g = new MGrille(nblig,nbcol);
 			gridGame = gridGame(nblig, nbcol);
 			BorderPane root = borderPane(gridGame);
@@ -62,10 +72,26 @@ public class VueControleur extends Application implements Observer {
 			primaryStage.setScene(scene);
 			primaryStage.setResizable(false);
 			primaryStage.show();
+			/*try {
+				// Load root layout from fxml file.
+				final URL url = getClass().getResource("Accueil.fxml");
+		        final FXMLLoader loader = new FXMLLoader(url);
+		        final AnchorPane root = (AnchorPane) loader.load();
+		        
+		        final Scene scene = new Scene(root);
+				primaryStage.setScene(scene);
+			
+			 } catch (IOException ex) {
+				System.err.println("Erreur chargement : "+ ex);
+			 }
+			 primaryStage.setTitle("Démineur");
+			 primaryStage.show();*/
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
+	
 	
 	public GridPane gridGame(int row, int col){
 		final GridPane gridGame = new GridPane(); 
@@ -196,6 +222,7 @@ public class VueControleur extends Application implements Observer {
         
 	}
 	
+	
 	public void afficherNbBombes(MCase c){
 		if (c.getNbBombesAutour() != 0){
 		Text nbVoisin = new Text(""+c.getNbBombesAutour());
@@ -245,6 +272,15 @@ public class VueControleur extends Application implements Observer {
 		// parcourir les cases pour tout rafraichir
 		// qui declenche la notif cote vue?
 	}
+	
+	//Méthodes pour FXML 
+	
+
+	@FXML
+	public void quitter(){
+		 Platform.exit();
+	}
+	
 	
 	//PROBLEME : 
 }
