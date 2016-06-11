@@ -9,8 +9,8 @@ public class MGrille extends Observable {
 	int nblignes;
 	int nbcolonnes;
 	ArrayList<MCase> cases = new ArrayList<MCase>();
-	int nbBombes = 10;
 	int bombesDecouvertes = 0;
+	int nbBombes;
 	
 	public void maj(int i) {
 		// TODO : appeler la case ...
@@ -18,9 +18,10 @@ public class MGrille extends Observable {
 		notifyObservers();
 	}
 	
-	public MGrille(int nblig, int nbcol){
+	public MGrille(int nblig, int nbcol, int nbBombes){
 		nblignes=nblig;
 		nbcolonnes=nbcol;
+		this.nbBombes=nbBombes;
 		initialisationListeCases();
 		for(int i = 0; i < nbBombes ; i++){
 			initialisationBombes();

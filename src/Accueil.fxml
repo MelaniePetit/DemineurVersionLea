@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="labelNB" prefHeight="355.0" prefWidth="386.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="VueControleur.ControleurFXML">
+<AnchorPane fx:id="labelNB" prefHeight="355.0" prefWidth="386.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="VueControleur.VueControleur">
    <children>
       <Label layoutX="110.0" layoutY="41.0" prefHeight="49.0" prefWidth="167.0" text="Démineur" textAlignment="CENTER">
          <font>
@@ -15,7 +15,7 @@
       </Label>
       <Button id="lancer" fx:id="lancer" layoutX="50.0" layoutY="276.0" mnemonicParsing="false" onAction="#lancer" text="Lancer la partie" />
       <Button fx:id="quit" layoutX="224.0" layoutY="276.0" mnemonicParsing="false" onAction="#quitter" text="Quitter le jeu" />
-      <ComboBox id="nbbombes" fx:id="nbbombes" layoutX="193.0" layoutY="128.0" prefWidth="150.0" promptText="Nb Bombes" >   
+      <ComboBox id="nbbombes" fx:id="nbbombes" layoutX="203.0" layoutY="128.0" prefWidth="150.0" promptText="Nb Bombes">   
       </ComboBox>
       <Label layoutX="43.0" layoutY="133.0" text="Nombre de bombes" />
    </children>
