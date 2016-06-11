@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Random;
 
-import javafx.scene.Parent;
-
 public class MGrille extends Observable {
 
 	int nblignes;

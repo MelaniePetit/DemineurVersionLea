@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Observable;
 
 import VueControleur.VueControleur;
+//CA NE DOIT PAS ETRE LA !
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
 import javafx.scene.image.Image;

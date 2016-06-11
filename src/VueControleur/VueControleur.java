@@ -17,6 +17,7 @@ import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -35,10 +36,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-
 public class VueControleur extends Application implements Observer {
 	
-	public Scene scene;
 	public int nbcol = 10;
 	public int nblig = 10;
 	public MGrille g;
@@ -46,52 +45,46 @@ public class VueControleur extends Application implements Observer {
 	public GridPane gridGame;
 	private HashMap<MCase,ImageView> map;
 	
-	
-	//Ce qui concerne FXML (en cours de test)
-	@FXML
-	private Button quit;
-	
-	
-	
-	public void start(Stage primaryStage) {
+	public void start(final Stage primaryStage) {
 		try {
-			
-            map = new HashMap<>();
-			g = new MGrille(nblig,nbcol);
-			gridGame = gridGame(nblig, nbcol);
-			BorderPane root = borderPane(gridGame);
-			
-			//root.setCenter(g);
-			//FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/text.fxml"));
-			//Parent root = (Parent) loader.load();
-			// scene = new Scene(root,nblig*100,nbcol*100); 
-			//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			scene = new Scene(root);
-			
-			gridGame.setGridLinesVisible(true);
+			Scene scene = debutPartie();
 			primaryStage.setScene(scene);
-			primaryStage.setResizable(false);
-			primaryStage.show();
-			/*try {
-				// Load root layout from fxml file.
-				final URL url = getClass().getResource("Accueil.fxml");
-		        final FXMLLoader loader = new FXMLLoader(url);
-		        final AnchorPane root = (AnchorPane) loader.load();
-		        
-		        final Scene scene = new Scene(root);
-				primaryStage.setScene(scene);
-			
-			 } catch (IOException ex) {
-				System.err.println("Erreur chargement : "+ ex);
-			 }
-			 primaryStage.setTitle("Démineur");
-			 primaryStage.show();*/
+			primaryStage.setTitle("Demineur");
+			primaryStage.show();			
 			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
+	public Scene bienvenue(){
+	        AnchorPane root = null;
+			try {
+				// Load root layout from fxml file.
+				final URL url = getClass().getResource("../Accueil.fxml");
+		        final FXMLLoader loader = new FXMLLoader(url);
+
+				root = (AnchorPane) loader.load();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        Scene scene = new Scene(root);
+	        return scene;
+	}
 	
+	public Scene debutPartie(){
+		  	map = new HashMap<>();
+			g = new MGrille(nblig,nbcol);
+			gridGame = gridGame(nblig, nbcol);
+		    
+			BorderPane root = borderPane(gridGame);
+			
+			//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			Scene scene = new Scene(root);
+			
+			gridGame.setGridLinesVisible(true);
+			return scene;
+	}
 	
 	public GridPane gridGame(int row, int col){
 		final GridPane gridGame = new GridPane(); 
@@ -205,7 +198,7 @@ public class VueControleur extends Application implements Observer {
 	public void victoire(){
         Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("La partie est terminee !");
-		alert.setHeaderText("Félicitation vous avez gagné !!");
+		alert.setHeaderText("Felicitation vous avez gagne !!");
 		alert.setContentText("Que voulez-vous faire ?");
 
 		ButtonType buttonTypeOne = new ButtonType("Rejouer");
@@ -263,24 +256,7 @@ public class VueControleur extends Application implements Observer {
 				victoire();
 			}
 		}
-		
-		
-		//fonction qui dit pour chaque case 
-		//
-		// gridGame.getChildren() recupere les cases graphiques
-		
-		// parcourir les cases pour tout rafraichir
-		// qui declenche la notif cote vue?
+	
 	}
-	
-	//Méthodes pour FXML 
-	
 
-	@FXML
-	public void quitter(){
-		 Platform.exit();
-	}
-	
-	
-	//PROBLEME : 
 }
