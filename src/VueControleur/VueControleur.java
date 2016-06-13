@@ -39,6 +39,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
+
 public class VueControleur extends Application implements Observer, Initializable {
 	
 	public int nbcol = 10;
@@ -49,6 +50,7 @@ public class VueControleur extends Application implements Observer, Initializabl
 	private HashMap<MCase,ImageView> map;
 	Parent root;
 	Stage stage;
+	Stage stage2 = new Stage();
 	
 	//FXML
 	
@@ -56,6 +58,8 @@ public class VueControleur extends Application implements Observer, Initializabl
 	@FXML 	private Button quit;
 	@FXML 	private Label title;
 	@FXML 	private ComboBox<String>	nbbombes;
+	@FXML 	private ComboBox<String>	taille;
+
 
 	public void start(final Stage primaryStage) {
 		try {
@@ -89,14 +93,26 @@ public class VueControleur extends Application implements Observer, Initializabl
 	       
 	}
 	
-	public Scene nouvellePartie(int nbBombes){
+	public void rejouer(){
+		stage2.close();
+		Scene scene = bienvenue();
+		stage = new Stage();
+		stage.setScene(scene);
+		stage.setTitle("Demineur");
+		stage.showAndWait();
+		
+		stage.close();
+		
+	}
+	
+	public Scene nouvellePartie(int nbBombes, int ligne, int colonne){
 		  	map = new HashMap<>();
-			g = new MGrille(nblig,nbcol,nbBombes);
-			gridGame = gridGame(nblig, nbcol);
+			g = new MGrille(ligne,colonne,nbBombes);
+			gridGame = gridGame(ligne, colonne);
 		    
 			root = borderPane(gridGame);
 			Scene scene = new Scene(root);
-			//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());			
+			//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			gridGame.setGridLinesVisible(true);
 			
 			return scene;
@@ -205,7 +221,9 @@ public class VueControleur extends Application implements Observer, Initializabl
 
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == buttonTypeOne){
-		} else if (result.get() == buttonTypeTwo) {
+			rejouer();
+		} 
+		else if (result.get() == buttonTypeTwo) {
 		    Platform.exit();
 		}
         
@@ -223,8 +241,9 @@ public class VueControleur extends Application implements Observer, Initializabl
 
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == buttonTypeOne){
-			//rejouer
-		} else if (result.get() == buttonTypeTwo) {
+			rejouer();
+		} 
+		else if (result.get() == buttonTypeTwo) {
 		    Platform.exit();
 		}
         
@@ -281,7 +300,9 @@ public class VueControleur extends Application implements Observer, Initializabl
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		nbbombes.getItems().removeAll(nbbombes.getItems());
-		nbbombes.getItems().addAll("10 bombes", "20 bombes", "30 bombes");
+		nbbombes.getItems().addAll("20 bombes", "30 bombes", "50 bombes");
+		taille.getItems().removeAll(taille.getItems());
+		taille.getItems().addAll("10 x 10", "20 x 10", "30 x 10");
 	}
 	
 	@FXML	private void quitter(ActionEvent event){
@@ -292,20 +313,39 @@ public class VueControleur extends Application implements Observer, Initializabl
 	
 	@FXML 	private void lancer(ActionEvent event){
 		try {
+			//Choix bombe
 			String result = nbbombes.getSelectionModel().getSelectedItem();
 			System.out.println(result);
 			int nb=0;
-			if (result.equals("10 bombes")){
-				nb=10;
-			} else if (result.equals("20 bombes")){
+			if (result.equals("20 bombes")){
 				nb=20;
-			} else nb=30;
+			} else if (result.equals("30 bombes")){
+				nb=30;
+			} else nb=50;
+			
+			//Choix taille
+			String t = taille.getSelectionModel().getSelectedItem();
+			int lig = 0;
+			int col = 0;
+			if (t.equals("10 x 10")){
+				lig = 10;
+				col = 10;
+			} 
+			else if (t.equals("20 x 10")){
+				lig = 10;
+				col = 20;
+			} 
+			else{
+				lig = 10;
+				col = 30;
+			}
+			
 			System.out.println("Lancer la partie ");
 			Stage stage = (Stage)lancer.getScene().getWindow();
 		    stage.close();
 		    
-			Scene scene = nouvellePartie(nb);
-			Stage stage2 = new Stage();
+		    
+			Scene scene = nouvellePartie(nb, lig, col);
 			stage2.setScene(scene);
 			stage2.setTitle("Demineur");
 			stage2.show();
@@ -313,8 +353,8 @@ public class VueControleur extends Application implements Observer, Initializabl
 			
 			Alert dialog = new Alert(AlertType.INFORMATION);
 			dialog.setTitle("ATTENTION");
-			dialog.setHeaderText("Et les bombes alors?");
-			dialog.setContentText("Vous n'avez pas choisis le nombre de bombes... \n" +
+			dialog.setHeaderText("Il manque des infos là ...");
+			dialog.setContentText("Vous n'avez pas choisis le nombre de bombes ou la taille de votre grille... \n" +
 			"Veuillez recommencer");
 			dialog.showAndWait();
 			
