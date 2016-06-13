@@ -51,6 +51,8 @@ public class VueControleur extends Application implements Observer, Initializabl
 	Parent root;
 	Stage stage;
 	Stage stage2 = new Stage();
+	private int tailleL = 0;
+	private int tailleH = 0;
 	
 	//FXML
 	
@@ -86,7 +88,6 @@ public class VueControleur extends Application implements Observer, Initializabl
 				root = (AnchorPane) loader.load();
 				scene = new Scene(root);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			return scene;
@@ -142,10 +143,10 @@ public class VueControleur extends Application implements Observer, Initializabl
 				MCase c = g.getCases().get(i*col+j);
 				ImageView a = new ImageView();
 				map.put(c, a); //regroupement de la case et de l'image
-				a.setImage(new Image(getClass().getResourceAsStream("caseViolet.jpg")));
-				a.setStyle("-fx-background-color: white;");
-				a.setFitWidth(80);
-				a.setFitHeight(80);               
+				a.setImage(new Image(getClass().getResourceAsStream("case.jpg")));
+				a.setStyle("-fx-background-color: blue;");
+				a.setFitWidth(tailleL);
+				a.setFitHeight(tailleH);               
 
 				gridGame.add(a, j, i);
 
@@ -180,7 +181,7 @@ public class VueControleur extends Application implements Observer, Initializabl
         rightLabel.setStyle("-fx-alignment: center;"); 
         rightLabel.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE); 
         rightLabel.setMinWidth(50); 
-        final Label bottomLabel = new Label("Nombre de bombes : "+g.getNbBombes()+" \nNombre de bombes découvertes : "+g.getBombesDecouvertes()); 
+        final Label bottomLabel = new Label("Nombre de bombes : "+g.getNbBombes()+" \nNombre de bombes decouvertes : "+g.getBombesDecouvertes()); 
         bottomLabel.setStyle("-fx-alignment: center;"); 
         bottomLabel.setMinHeight(50); 
         bottomLabel.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE); 
@@ -200,7 +201,7 @@ public class VueControleur extends Application implements Observer, Initializabl
 	
 	
 	public Text score(){
-		Text score = new Text("Nombre de bombes : "+g.getNbBombes()+" \nNombre de bombes découvertes : "+g.getBombesDecouvertes());
+		Text score = new Text("Nombre de bombes : "+g.getNbBombes()+" \nNombre de bombes decouvertes : "+g.getBombesDecouvertes());
         score.setFont(new Font(25));
         score.setFill(Color.WHITE);
         score.setTranslateX(35);
@@ -276,11 +277,11 @@ public class VueControleur extends Application implements Observer, Initializabl
 			} else {
 				//supprimer l'autre image??
 				g.setBombesDecouvertes(g.getBombesDecouvertes() -1);
-				((ImageView) i).setImage(new Image(getClass().getResourceAsStream("caseViolet.jpg")));
+				((ImageView) i).setImage(new Image(getClass().getResourceAsStream("case.jpg")));
 			}
 			if (c.isChiffre()){
 				afficherNbBombes(c);
-				((ImageView) i).setImage(new Image(getClass().getResourceAsStream("rose.jpg")));
+				((ImageView) i).setImage(new Image(getClass().getResourceAsStream("carre.png")));
 			}
 			if (c.isClickBombe()){
 				((ImageView) i).setImage(new Image(getClass().getResourceAsStream("bombeViolette.jpg")));
@@ -302,7 +303,7 @@ public class VueControleur extends Application implements Observer, Initializabl
 		nbbombes.getItems().removeAll(nbbombes.getItems());
 		nbbombes.getItems().addAll("20 bombes", "30 bombes", "50 bombes");
 		taille.getItems().removeAll(taille.getItems());
-		taille.getItems().addAll("10 x 10", "20 x 10", "30 x 10");
+		taille.getItems().addAll("10 x 10", "20 x 10", "30 x 15");
 	}
 	
 	@FXML	private void quitter(ActionEvent event){
@@ -330,14 +331,20 @@ public class VueControleur extends Application implements Observer, Initializabl
 			if (t.equals("10 x 10")){
 				lig = 10;
 				col = 10;
+				tailleL = 80;
+				tailleH = 80;
 			} 
 			else if (t.equals("20 x 10")){
 				lig = 10;
 				col = 20;
+				tailleL = 60;
+				tailleH = 60;
 			} 
 			else{
-				lig = 10;
+				lig = 15;
 				col = 30;
+				tailleL = 50;
+				tailleH = 50;
 			}
 			
 			System.out.println("Lancer la partie ");
@@ -359,10 +366,5 @@ public class VueControleur extends Application implements Observer, Initializabl
 			dialog.showAndWait();
 			
 		}
-		
-
 	}
-
-
-
 }
