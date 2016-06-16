@@ -183,7 +183,7 @@ public class VueControleur extends Application implements Observer, Initializabl
         final Label rightLabel = new Label(); 
         rightLabel.setStyle("-fx-alignment: center;"); 
         rightLabel.setMinWidth(50); 
-        final Label bottomLabel = new Label("Nombre de bombes : "+g.getNbBombes()+" \nNombre de drapeaux posés : "+g.getDrapeauxPosés()); 
+        final Label bottomLabel = new Label("Nombre de bombes : "+g.getNbBombes()+" \nNombre de drapeaux posés : "+g.getDrapeauxPoses()); 
         bottomLabel.setStyle("-fx-alignment: center;"); 
         bottomLabel.setMinHeight(50); 
         bottomLabel.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE); 
@@ -290,11 +290,11 @@ public class VueControleur extends Application implements Observer, Initializabl
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		g.setDrapeauxPosés(0);
+		g.setDrapeauxPoses(0);
 		for(MCase c : g.getCases()){
 			Node i = map.get(c);
 			if (c.isDrapeau()){
-				g.setDrapeauxPosés(g.getDrapeauxPosés() +1);
+				g.setDrapeauxPoses(g.getDrapeauxPoses() +1);
 				((ImageView) i).setImage(new Image(getClass().getResourceAsStream("drapeau.jpg")));
 				
 			} else {
@@ -313,7 +313,7 @@ public class VueControleur extends Application implements Observer, Initializabl
 				victoire();
 			}
 		}
-		final Label bottomLabel = new Label("Nombre de bombes : "+g.getNbBombes()+" \nNombre de drapeaux posés : "+g.getDrapeauxPosés()); 
+		final Label bottomLabel = new Label("Nombre de bombes : "+g.getNbBombes()+" \nNombre de drapeaux poses : "+g.getDrapeauxPoses()); 
         bottomLabel.setStyle("-fx-alignment: center;"); 
         bottomLabel.setMinHeight(50); 
         bottomLabel.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE); 
