@@ -27,6 +27,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -45,10 +47,12 @@ public class VueControleur extends Application implements Observer, Initializabl
 	public int nbcol = 10;
 	public int nblig = 10;
 	public MGrille g;
+	//public MChrono time;
 	protected ImageView maCase;
 	public GridPane gridGame;
 	private HashMap<MCase,ImageView> map;
-	Parent root;
+	Parent root1; //Anchor Pane
+	Parent root2; //Border Pane
 	Stage stage;
 	Stage stage2 = new Stage();
 	private int tailleL = 0;
@@ -85,8 +89,8 @@ public class VueControleur extends Application implements Observer, Initializabl
 				final URL url = getClass().getResource("../Accueil.fxml");
 		        final FXMLLoader loader = new FXMLLoader(url);
 
-				root = (AnchorPane) loader.load();
-				scene = new Scene(root);
+				root1 = (AnchorPane) loader.load();
+				scene = new Scene(root1);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -95,6 +99,7 @@ public class VueControleur extends Application implements Observer, Initializabl
 	}
 	
 	public void rejouer(){
+		//lance une exception ... 
 		stage2.close();
 		Scene scene = bienvenue();
 		stage = new Stage();
@@ -111,11 +116,10 @@ public class VueControleur extends Application implements Observer, Initializabl
 			g = new MGrille(ligne,colonne,nbBombes);
 			gridGame = gridGame(ligne, colonne);
 		    
-			root = borderPane(gridGame);
-			Scene scene = new Scene(root);
+			root2 = borderPane(gridGame);
+			Scene scene = new Scene(root2);
 			//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			gridGame.setGridLinesVisible(true);
-			
 			return scene;
 	}
 	
@@ -157,12 +161,10 @@ public class VueControleur extends Application implements Observer, Initializabl
 						String s = event.getButton().toString(); 
 						//clic droit ou gauche
 
-						c.clicDroitGauche(s);
-						g.maj(c.getIndex());
+						g.clicEvent(s,c);
 
 					}
 				});
-				//gridGame.setGridLinesVisible(true);
 			}
 		}
 		return gridGame;
@@ -179,33 +181,24 @@ public class VueControleur extends Application implements Observer, Initializabl
         topLabel.setMinHeight(50); 
         final Label rightLabel = new Label(); 
         rightLabel.setStyle("-fx-alignment: center;"); 
-        rightLabel.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE); 
         rightLabel.setMinWidth(50); 
-        final Label bottomLabel = new Label("Nombre de bombes : "+g.getNbBombes()+" \nNombre de bombes decouvertes : "+g.getBombesDecouvertes()); 
+        final Label bottomLabel = new Label("Nombre de bombes : "+g.getNbBombes()+" \nNombre de drapeaux posés : "+g.getDrapeauxPosés()); 
         bottomLabel.setStyle("-fx-alignment: center;"); 
         bottomLabel.setMinHeight(50); 
         bottomLabel.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE); 
         final Label leftLabel = new Label(); 
         leftLabel.setStyle("-fx-alignment: center;"); 
-        leftLabel.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE); 
         leftLabel.setMinWidth(50); 
-        
+
+       
 		BorderPane root = new BorderPane();
         root.setTop(topLabel); 
         root.setRight(rightLabel); 
         root.setBottom(bottomLabel); 
         root.setLeft(leftLabel); 
-        root.setCenter(gridGame); 
+        root.setCenter(gridGame);
+        
         return root;
-	}
-	
-	
-	public Text score(){
-		Text score = new Text("Nombre de bombes : "+g.getNbBombes()+" \nNombre de bombes decouvertes : "+g.getBombesDecouvertes());
-        score.setFont(new Font(25));
-        score.setFill(Color.WHITE);
-        score.setTranslateX(35);
-        return score;
 	}
 	
 	public void perdre(){
@@ -257,7 +250,7 @@ public class VueControleur extends Application implements Observer, Initializabl
 		
 		nbVoisin.setFont(new Font(25));
 		nbVoisin.setFill(Color.WHITE);
-		nbVoisin.setTranslateX(35);
+		nbVoisin.setTranslateX(tailleL/2.5); 
 		
 		int j = c.getIndex()%(g.getNbcolonnes()); //colonne
 		int i = (c.getIndex()-j)/(g.getNbcolonnes()); //ligne
@@ -268,15 +261,15 @@ public class VueControleur extends Application implements Observer, Initializabl
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		g.setBombesDecouvertes(0);
+		g.setDrapeauxPosés(0);
 		for(MCase c : g.getCases()){
 			Node i = map.get(c);
 			if (c.isDrapeau()){
-				g.setBombesDecouvertes(g.getBombesDecouvertes() +1);
-				((ImageView) i).setImage(new Image(getClass().getResourceAsStream("drapeauViolet.jpg")));
+				g.setDrapeauxPosés(g.getDrapeauxPosés() +1);
+				((ImageView) i).setImage(new Image(getClass().getResourceAsStream("drapeau.jpg")));
+				
 			} else {
-				//supprimer l'autre image??
-				g.setBombesDecouvertes(g.getBombesDecouvertes() -1);
+				
 				((ImageView) i).setImage(new Image(getClass().getResourceAsStream("case.jpg")));
 			}
 			if (c.isChiffre()){
@@ -284,14 +277,18 @@ public class VueControleur extends Application implements Observer, Initializabl
 				((ImageView) i).setImage(new Image(getClass().getResourceAsStream("carre.png")));
 			}
 			if (c.isClickBombe()){
-				((ImageView) i).setImage(new Image(getClass().getResourceAsStream("bombeViolette.jpg")));
+				((ImageView) i).setImage(new Image(getClass().getResourceAsStream("bombe.jpg")));
 				perdre();
 			}
 			if (g.gagnee()){
 				victoire();
 			}
 		}
-	
+		final Label bottomLabel = new Label("Nombre de bombes : "+g.getNbBombes()+" \nNombre de drapeaux posés : "+g.getDrapeauxPosés()); 
+        bottomLabel.setStyle("-fx-alignment: center;"); 
+        bottomLabel.setMinHeight(50); 
+        bottomLabel.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE); 
+        ((BorderPane) root2).setBottom(bottomLabel); 
 	}
 	
 	//FXML
@@ -355,12 +352,13 @@ public class VueControleur extends Application implements Observer, Initializabl
 			Scene scene = nouvellePartie(nb, lig, col);
 			stage2.setScene(scene);
 			stage2.setTitle("Demineur");
+			stage2.setResizable(false);
 			stage2.show();
 		} catch (Exception e){
 			
 			Alert dialog = new Alert(AlertType.INFORMATION);
 			dialog.setTitle("ATTENTION");
-			dialog.setHeaderText("Il manque des infos l� ...");
+			dialog.setHeaderText("Il manque des infos ...");
 			dialog.setContentText("Vous n'avez pas choisis le nombre de bombes ou la taille de votre grille... \n" +
 			"Veuillez recommencer");
 			dialog.showAndWait();

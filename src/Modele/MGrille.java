@@ -9,11 +9,11 @@ public class MGrille extends Observable {
 	int nblignes;
 	int nbcolonnes;
 	ArrayList<MCase> cases = new ArrayList<MCase>();
-	int bombesDecouvertes = 0;
+	int drapeauxPosés = 0;
 	int nbBombes;
 	
-	public void maj(int i) {
-		// TODO : appeler la case ...
+	public void clicEvent(String s, MCase mCase) {
+		mCase.clicDroitGauche(s);
 		setChanged();
 		notifyObservers();
 	}
@@ -161,12 +161,12 @@ public class MGrille extends Observable {
 		this.nbBombes = nbBombes;
 	}
 
-	public int getBombesDecouvertes() {
-		return bombesDecouvertes;
+	public int getDrapeauxPosés() {
+		return drapeauxPosés;
 	}
 
-	public void setBombesDecouvertes(int bombesDecouvertes) {
-		this.bombesDecouvertes = bombesDecouvertes;
+	public void setDrapeauxPosés(int drapeau) {
+		this.drapeauxPosés = drapeau;
 	}
 
 	public int getNblignes() {

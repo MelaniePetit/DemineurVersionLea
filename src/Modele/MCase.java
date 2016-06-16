@@ -1,15 +1,6 @@
 package Modele;
 
 import java.util.ArrayList;
-import java.util.Observable;
-
-import VueControleur.VueControleur;
-//CA NE DOIT PAS ETRE LA !
-import javafx.scene.effect.Light;
-import javafx.scene.effect.Lighting;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
 
 public class MCase {
 
@@ -27,15 +18,6 @@ public class MCase {
 	
 	public MCase(int index){
 		this.index=index;
-	}
-	
-	public MCase(int index, ImageView a){
-		this.index = index;
-		initCase(a);
-	}
-	
-	public void initCase(ImageView a){
-		//Inutile...
 	}
 	
 	public void clicDroitGauche(String s){
