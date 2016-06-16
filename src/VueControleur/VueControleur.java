@@ -13,6 +13,8 @@ import Modele.MGrille;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -36,6 +38,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -190,9 +193,37 @@ public class VueControleur extends Application implements Observer, Initializabl
         leftLabel.setStyle("-fx-alignment: center;"); 
         leftLabel.setMinWidth(50); 
 
-       
+        HBox hbox = new HBox();
+        hbox.setPadding(new Insets(15, 12, 15, 12));
+        hbox.setSpacing(10);
+
+        Label label = new Label("Jouer au démineur c'est super !				");
+        label.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE); 
+        
+        Button buttonRejouer = new Button("Recommencer une partie");
+
+        buttonRejouer.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+            	Alert alert = new Alert(AlertType.CONFIRMATION);
+            	alert.setTitle("Recommencer?");
+            	alert.setHeaderText("Recommencer?");
+            	alert.setContentText("Etes vous sur de vouloir quitter cette partie?");
+
+            	Optional<ButtonType> result = alert.showAndWait();
+            	if (result.get() == ButtonType.OK){
+            	    rejouer();
+            	} else {
+            		return;
+            	}
+            }
+        });
+        
+        hbox.getChildren().addAll(label, buttonRejouer);
+        hbox.setAlignment(Pos.CENTER);
+        
 		BorderPane root = new BorderPane();
-        root.setTop(topLabel); 
+        root.setTop(hbox); 
         root.setRight(rightLabel); 
         root.setBottom(bottomLabel); 
         root.setLeft(leftLabel); 
