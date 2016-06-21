@@ -195,8 +195,8 @@ public class VueControleur extends Application implements Observer, Initializabl
         hbox.setPadding(new Insets(15, 12, 15, 12));
         hbox.setSpacing(10);
 
-        Label label = new Label("Jouer au démineur c'est super !				");
-        label.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE); 
+        //sLabel label = new Label("Jouer au démineur c'est super !				");
+        //label.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE); 
         
         Button buttonRejouer = new Button("Recommencer une partie");
 
@@ -217,7 +217,7 @@ public class VueControleur extends Application implements Observer, Initializabl
             }
         });
         
-        hbox.getChildren().addAll(label, buttonRejouer);
+        hbox.getChildren().addAll(buttonRejouer);
         hbox.setAlignment(Pos.CENTER);
         
 		BorderPane root = new BorderPane();
@@ -357,20 +357,20 @@ public class VueControleur extends Application implements Observer, Initializabl
 			if (t.equals("10 x 10")){
 				lig = 10;
 				col = 10;
-				tailleL = 80;
-				tailleH = 80;
+				tailleL = 40;
+				tailleH = 40;
 			} 
 			else if (t.equals("20 x 10")){
 				lig = 10;
 				col = 20;
-				tailleL = 60;
-				tailleH = 60;
+				tailleL = 40;
+				tailleH = 40;
 			} 
 			else{
 				lig = 15;
 				col = 30;
-				tailleL = 50;
-				tailleH = 50;
+				tailleL = 40;
+				tailleH = 40;
 			}
 			
 			System.out.println("Lancer la partie ");
@@ -387,7 +387,7 @@ public class VueControleur extends Application implements Observer, Initializabl
 			
 			Alert dialog = new Alert(AlertType.INFORMATION);
 			dialog.setTitle("ATTENTION");
-			dialog.setHeaderText("Il manque des infos ...");
+			dialog.setHeaderText("Il manque des informations !");
 			dialog.setContentText("Vous n'avez pas choisis le nombre de bombes ou la taille de votre grille... \n" +
 			"Veuillez recommencer");
 			dialog.showAndWait();

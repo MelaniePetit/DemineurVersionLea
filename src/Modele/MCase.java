@@ -54,14 +54,7 @@ public class MCase {
 		}
 	
 
-	
-	private void setClickBombe(boolean b) {
-		clickBombe = b;		
-	}
 
-	public void setChiffre(boolean b) {
-		chiffre=b;		
-	}
 
 	public void compteurBombe(){
 		nbBombesAutour = 0;
@@ -117,6 +110,13 @@ public class MCase {
 		this.drapeau = drapeau;
 	}
 
+	private void setClickBombe(boolean b) {
+		clickBombe = b;		
+	}
+
+	public void setChiffre(boolean b) {
+		chiffre=b;		
+	}
 
 	public boolean isBombe() {
 		return bombe;
